@@ -1,0 +1,5 @@
+POST /api/dogs?id=9&name=sharik
+{
+   «id»: 9,
+   «name»: «sharik»
+}
