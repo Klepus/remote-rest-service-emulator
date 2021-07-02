@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.example.emulator.parser.FileParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RestServiceEmulator extends HttpServlet {
 
-    private final String pathToFolder;
+    private final FileParser fileParser;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +51,7 @@ public class RestServiceEmulator extends HttpServlet {
     }
 
     private String handleResponse(String requestString) {
-        Map<String, String> requestMap = FileParser.getRequestMap(pathToFolder);
+        Map<String, String> requestMap = fileParser.getRequestMap();
         return requestMap.get(requestString);
     }
 
