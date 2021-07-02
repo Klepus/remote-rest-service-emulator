@@ -1,5 +1,6 @@
 package org.example.emulator.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.example.emulator.parser.FileParser;
@@ -15,7 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 public class RestServiceEmulator extends HttpServlet {
+
+    private final String pathToFolder;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +50,7 @@ public class RestServiceEmulator extends HttpServlet {
     }
 
     private String handleResponse(String requestString) {
-        Map<String, String> requestMap = FileParser.getRequestMap();
+        Map<String, String> requestMap = FileParser.getRequestMap(pathToFolder);
         return requestMap.get(requestString);
     }
 

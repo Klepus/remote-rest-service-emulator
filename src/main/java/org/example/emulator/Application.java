@@ -10,6 +10,7 @@
 package org.example.emulator;
 
 import org.example.emulator.controller.RestServiceEmulator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -18,13 +19,16 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class Application {
 
+    @Value("${path-to-folder}")
+    private String pathToFolder;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
     public ServletRegistrationBean customServletBean() {
-        ServletRegistrationBean bean = new ServletRegistrationBean(new RestServiceEmulator(), "/");
+        ServletRegistrationBean bean = new ServletRegistrationBean(new RestServiceEmulator(pathToFolder), "/");
         return bean;
     }
 

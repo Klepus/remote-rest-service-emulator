@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 
 public class FileParser {
 
-    public static Map<String, String> getRequestMap() {
+    public static Map<String, String> getRequestMap(String pathToFolder) {
         Map<String, String> requestMap = new HashMap<>();
-        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/examples"))) {
+        try (Stream<Path> paths = Files.walk(Paths.get(pathToFolder))) {
             paths
                     .filter(Files::isRegularFile)
                     .forEach(file -> parseFile(file , requestMap));
