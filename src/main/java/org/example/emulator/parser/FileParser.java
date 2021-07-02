@@ -1,5 +1,8 @@
 package org.example.emulator.parser;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,9 +13,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Getter
+@Slf4j
 public class FileParser {
 
-    public static Map<String, String> getRequestMap(String pathToFolder) {
+    private final Map<String, String> requestMap;
+
+    public FileParser(String path) {
+        requestMap = fillRequestMap(path);
+        log.info("Emulation for requests: {}", requestMap.keySet());
+    }
+
+    private Map<String, String> fillRequestMap(String pathToFolder) {
         Map<String, String> requestMap = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(pathToFolder))) {
             paths
@@ -25,7 +37,7 @@ public class FileParser {
         return requestMap;
     }
 
-    private static void parseFile(Path file, Map<String, String> requestMap) {
+    private void parseFile(Path file, Map<String, String> requestMap) {
         List<String> fileLines;
         try (Stream<String> lines = Files.lines(file)) {
             fileLines = lines.collect(Collectors.toList());

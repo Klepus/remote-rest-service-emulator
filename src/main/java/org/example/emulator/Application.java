@@ -10,6 +10,7 @@
 package org.example.emulator;
 
 import org.example.emulator.controller.RestServiceEmulator;
+import org.example.emulator.parser.FileParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,7 +29,8 @@ public class Application {
 
     @Bean
     public ServletRegistrationBean customServletBean() {
-        ServletRegistrationBean bean = new ServletRegistrationBean(new RestServiceEmulator(pathToFolder), "/");
+        FileParser fileParser = new FileParser(pathToFolder);
+        ServletRegistrationBean bean = new ServletRegistrationBean(new RestServiceEmulator(fileParser), "/");
         return bean;
     }
 
