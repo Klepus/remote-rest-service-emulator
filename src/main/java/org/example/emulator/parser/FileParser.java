@@ -21,7 +21,10 @@ public class FileParser {
 
     public FileParser(String path) {
         requestMap = fillRequestMap(path);
-        log.info("Emulation for requests: {}", requestMap.keySet());
+        log.info("Emulation for requests:\n");
+        for (String request : requestMap.keySet()) {
+            log.info(request);
+        }
     }
 
     private Map<String, String> fillRequestMap(String pathToFolder) {

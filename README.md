@@ -15,8 +15,8 @@
 ```` 
 GET /api/cats?id=1
 {
-    «id»: 1,
-    «name»: «vasja»
+    "id": 1,
+    "name": "vasja"
 }
 ````
 

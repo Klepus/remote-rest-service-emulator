@@ -1,0 +1,21 @@
+GET /searchRecommendations/search/?partnerId=testid&apiKey=testkey&sessionExternalId=testSessionExternalId&stockId=testStockId&searchPhrase%20=testSearchPhrase
+{
+     "recommendations":
+     [
+         {
+             "productId": 100023678381
+         },
+         {
+             "productId": 100023587074
+         },
+         {
+             "productId": 100023587072
+         },
+         {
+             "productId": 100023586771
+         },
+         {
+             "productId": 100023635202
+         }
+     ]
+ }

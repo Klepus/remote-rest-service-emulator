@@ -2,9 +2,9 @@ package org.example.emulator.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.example.emulator.parser.FileParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.Map;
 
 @Slf4j
@@ -26,12 +27,16 @@ public class RestServiceEmulator extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StringBuilder requestBuilder = new StringBuilder();
         requestBuilder.append(request.getMethod())
-               .append(" ")
-               .append(request.getRequestURI())
-               .append("?")
-               .append(request.getQueryString());
+                .append(" ")
+                .append(request.getRequestURI());
+
+        if (StringUtils.isNotEmpty(request.getQueryString())) {
+            requestBuilder.append("?")
+                    .append(request.getQueryString());
+        }
         String requestString = URLDecoder.decode(requestBuilder.toString(), StandardCharsets.UTF_8);
         log.info("Request: {}", requestString);
+        log.info("Body: {}", IOUtils.toString(request.getReader()));
         sendResponse(requestString, response);
     }
 
@@ -40,10 +45,10 @@ public class RestServiceEmulator extends HttpServlet {
         int status;
         if (StringUtils.isEmpty(result)) {
             status = HttpServletResponse.SC_NOT_FOUND;
-            result = "Not found";
+            result = MessageFormat.format("Request not found: [{0}]", requestString);
         } else {
             status = HttpServletResponse.SC_OK;
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         }
         response.setStatus(status);
         PrintWriter writer = response.getWriter();
